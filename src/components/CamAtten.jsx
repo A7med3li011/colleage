@@ -51,8 +51,7 @@ const CamAtten = () => {
       toast.success("Attendance marked successfully!");
       navigate("/");
     } catch (err) {
-      toast.error("Failed to mark attendance. Please try again.");
-      console.error("Error marking attendance:", err);
+      toast.error(err?.response?.data?.details);
     } finally {
       setLoading(false);
     }
