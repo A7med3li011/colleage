@@ -11,6 +11,7 @@ import TeacherHome from "./pages/TeacherHome";
 import EachSub from "./pages/EachSub";
 import CamAtten from "./components/CamAtten";
 import CuorseDetailsT from "./pages/CuorseDetailsT";
+import SessionDetails from "./pages/SessionDetails";
 
 function App() {
   // async function getUser() {
@@ -48,6 +49,7 @@ function App() {
         { path: "/Teacher-Home", element: <TeacherHome /> },
         { path: "/subject", element: <EachSub /> },
         { path: "/course-details-teacher", element: <CuorseDetailsT /> },
+        { path: "/SessionDetails", element: <SessionDetails /> },
       ],
     },
   ]);

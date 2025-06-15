@@ -1,7 +1,9 @@
 import React from "react";
 import { Clock, Calendar, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-const SessionDisplay = ({ data }) => {
+const SessionDisplay = ({ data, course_id }) => {
+  const navigate = useNavigate();
   const sessionsData = {
     sessions: [...data],
   };
@@ -105,6 +107,14 @@ const SessionDisplay = ({ data }) => {
             <tbody className="bg-white divide-y divide-gray-200">
               {sessionsData.sessions.map((session, index) => (
                 <tr
+                  onClick={() =>
+                    navigate("/SessionDetails", {
+                      state: {
+                        sessionId: session.session_id,
+                        course_id: course_id,
+                      },
+                    })
+                  }
                   key={session.session_id}
                   className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                 >

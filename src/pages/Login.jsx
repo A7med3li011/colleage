@@ -44,7 +44,7 @@ export default function Login() {
           navigate("/");
         }
       })
-      .catch((err) => toast.error(err.response.data.error));
+      .catch((err) => toast.error(err.response.data.message));
   }
   async function loginTeacher() {
     await axios
@@ -66,7 +66,7 @@ export default function Login() {
         navigate("/Teacher-Home");
         console.log(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response.data.message));
   }
   return (
     <div className=" max-w-6xl mx-auto my-10">

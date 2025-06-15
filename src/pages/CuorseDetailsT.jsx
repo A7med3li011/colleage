@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { baseUrl } from "../services/apis";
 import { useEffect, useState } from "react";
 import { BookOpen, Hash, Users } from "lucide-react";
@@ -11,7 +11,6 @@ export default function CuorseDetailsT() {
   const { state } = location;
   const [courseData, setCData] = useState({});
   const [seassions, setSeassions] = useState([]);
-  console.log(state);
 
   async function courseSummary() {
     await axios
@@ -134,7 +133,10 @@ export default function CuorseDetailsT() {
           </div>
           {seassions.length && (
             <div className="mt-10">
-              <SessionDisplay data={seassions} />
+              <SessionDisplay
+                data={seassions}
+                course_id={courseData?.course_id}
+              />
             </div>
           )}
         </div>
