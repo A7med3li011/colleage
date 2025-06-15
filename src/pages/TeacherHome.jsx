@@ -70,7 +70,17 @@ export default function TeacherHome() {
 
                 {/* Action Buttons */}
                 <div className="mt-4 flex space-x-2">
-                  <button className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium">
+                  <button
+                    onClick={() =>
+                      navigate("/course-details-teacher", {
+                        state: {
+                          cId: course.course_id,
+                          subject: course.course_name,
+                        },
+                      })
+                    }
+                    className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                  >
                     View Details
                   </button>
                   <button

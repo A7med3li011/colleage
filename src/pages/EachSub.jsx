@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Play, Square, Clock, Users, BookOpen } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { baseUrl } from "../services/apis";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -59,27 +59,7 @@ export default function EachSub() {
       })
       .catch((err) => console.log(err));
   }
-  //   async function statuss() {
-  //     await axios
-  //       .get(
-  //         `${baseUrl}api/teacher/verification_stats`,
 
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         // toast.success("Attendance session started");
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  //   useEffect(() => {
-  //     statuss();
-  //   }, []);
   async function endSession() {
     await axios
       .post(
@@ -104,17 +84,12 @@ export default function EachSub() {
 
   async function getDetails() {
     await axios
-      .get(
-        `${baseUrl}/teacher/course/${state.cId}/sessions/${localStorage.getItem(
-          "session_id"
-        )}/details`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .get(`${baseUrl}teacher/course/${state.cId}/current_session/attendance`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => setMyDetails(res.data))
       .catch((err) => console.log(err));
   }
@@ -226,9 +201,9 @@ export default function EachSub() {
             </div>
           </div>
         </div>
-        {mydetails?.attendance?.length && (
+        {mydetails?.absent?.length && (
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 w-full">
-            <Details attendanceData={mydetails} />
+            <Details data={mydetails} />
           </div>
         )}
       </div>

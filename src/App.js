@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import TeacherHome from "./pages/TeacherHome";
 import EachSub from "./pages/EachSub";
 import CamAtten from "./components/CamAtten";
+import CuorseDetailsT from "./pages/CuorseDetailsT";
 
 function App() {
   // async function getUser() {
@@ -46,6 +47,7 @@ function App() {
         { path: "/", element: <Home /> },
         { path: "/Teacher-Home", element: <TeacherHome /> },
         { path: "/subject", element: <EachSub /> },
+        { path: "/course-details-teacher", element: <CuorseDetailsT /> },
       ],
     },
   ]);
