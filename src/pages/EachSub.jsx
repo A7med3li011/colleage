@@ -90,8 +90,11 @@ export default function EachSub() {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => setMyDetails(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setMyDetails(res.data);
+        setIsSessionActive(true);
+      })
+      .catch((err) => setIsSessionActive(false));
   }
 
   useEffect(() => {
@@ -149,7 +152,7 @@ export default function EachSub() {
             </div>
 
             {/* Session Timer */}
-            {isSessionActive && (
+            {/* {isSessionActive && (
               <div className="mb-6">
                 <div className="flex items-center justify-center space-x-2 text-3xl font-bold text-blue-600">
                   <Clock className="h-8 w-8" />
@@ -157,7 +160,7 @@ export default function EachSub() {
                 </div>
                 <p className="text-gray-500 mt-2">Session Duration</p>
               </div>
-            )}
+            )} */}
 
             {/* Action Buttons */}
             <div className="flex justify-center space-x-4">

@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import { baseUrl } from "../services/apis";
 import { useEffect, useState } from "react";
 import { BookOpen, Hash, Users } from "lucide-react";
+import SessionDisplay from "./SessionDisplay";
 
 export default function CuorseDetailsT() {
   const location = useLocation();
 
   const { state } = location;
   const [courseData, setCData] = useState({});
+  const [seassions, setSeassions] = useState([]);
   console.log(state);
 
   async function courseSummary() {
@@ -26,8 +28,24 @@ export default function CuorseDetailsT() {
       .then((res) => setCData(res.data))
       .catch((err) => console.log(err));
   }
+  async function courseDetails() {
+    await axios
+      .get(
+        `${baseUrl}teacher/course/${state.cId}/sessions`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => setSeassions(res.data.sessions))
+      .catch((err) => console.log(err));
+  }
   useEffect(() => {
     courseSummary();
+    courseDetails();
   }, []);
 
   return (
@@ -114,14 +132,11 @@ export default function CuorseDetailsT() {
               </div>
             </div>
           </div>
-
-          {/* Status Badge */}
-          {/* <div className="mt-6 flex justify-center">
-            <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-              Active Course
-            </span>
-          </div> */}
+          {seassions.length && (
+            <div className="mt-10">
+              <SessionDisplay data={seassions} />
+            </div>
+          )}
         </div>
       </div>
     </div>
