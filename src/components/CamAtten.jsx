@@ -40,9 +40,8 @@ const CamAtten = () => {
       // Create FormData
       const formData = new FormData();
       formData.append("image", imageFile);
-      formData.append("course_id", state?.cId);
 
-      await axios.post(`${baseUrl}api/attendance/mark`, formData, {
+      await axios.post(`${baseUrl}student/attend/${state?.cId}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

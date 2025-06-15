@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { baseUrl } from "../services/apis";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Details from "../components/Details";
 
 export default function EachSub() {
   const [isSessionActive, setIsSessionActive] = useState(false);
@@ -28,22 +29,21 @@ export default function EachSub() {
     await startSession();
   };
 
+  const [mydetails, setMyDetails] = useState({});
   const handleEndSession = async () => {
     setIsSessionActive(false);
     setSessionStartTime(null);
     setSessionDuration(0);
     await endSession();
   };
-
+  const [flag, setFlage] = useState(true);
   const location = useLocation();
   const { state } = location;
   async function startSession() {
     await axios
       .post(
-        `${baseUrl}api/teacher/start_session`,
-        {
-          course_id: `${state.cId}`,
-        },
+        `${baseUrl}teacher/course/${state.cId}/sessions/start`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
@@ -52,8 +52,10 @@ export default function EachSub() {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
+        localStorage.setItem("session_id", res.data.session_id);
         toast.success("Attendance session started");
+        setFlage(false);
       })
       .catch((err) => console.log(err));
   }
@@ -81,7 +83,7 @@ export default function EachSub() {
   async function endSession() {
     await axios
       .post(
-        `${baseUrl}api/teacher/end_session`,
+        `${baseUrl}teacher/course/${state.cId}/sessions/end`,
         {
           course_id: `${state.cId}`,
         },
@@ -94,11 +96,34 @@ export default function EachSub() {
       )
       .then((res) => {
         console.log(res.data);
+        setFlage(true);
         toast.success("Attendance session ended");
       })
       .catch((err) => console.log(err));
   }
 
+  async function getDetails() {
+    await axios
+      .get(
+        `${baseUrl}/teacher/course/${state.cId}/sessions/${localStorage.getItem(
+          "session_id"
+        )}/details`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => setMyDetails(res.data))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getDetails();
+  }, [flag]);
+
+  console.log(mydetails);
   const formatDuration = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -200,33 +225,12 @@ export default function EachSub() {
               </p>
             </div>
           </div>
-
-          {/* <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center space-x-3 mb-4">
-              <Users className="h-6 w-6 text-green-600" />
-              <h3 className="text-lg font-semibold text-gray-800">
-                Attendance
-              </h3>
-            </div>
-            <div className="space-y-2">
-              <p className="text-gray-600">
-                <span className="font-medium">
-                  Expected: {myCourse.total_students || 0}
-                </span>{" "}
-                 students
-              </p>
-              <p className="text-gray-600">
-                <span className="font-medium">
-                  Present: {myCourse.verified_students || 0} students
-                </span>
-              </p>
-              <p className="text-gray-600">
-                <span className="font-medium">Attendance Rate:</span>{" "}
-                {isSessionActive ? "93%" : "--"}
-              </p>
-            </div>
-          </div> */}
         </div>
+        {mydetails?.attendance?.length && (
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 w-full">
+            <Details attendanceData={mydetails} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,1 +1,1 @@
-export const baseUrl = "https://backendface.fly.dev/";
+export const baseUrl = "https://facesystem.fly.dev/";

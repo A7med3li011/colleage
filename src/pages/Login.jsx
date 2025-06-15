@@ -16,7 +16,7 @@ export default function Login() {
 
   async function loginStudent() {
     await axios
-      .post(`${baseUrl}api/student/login`, {
+      .post(`${baseUrl}/student/login`, {
         email,
         password,
       })
@@ -48,19 +48,21 @@ export default function Login() {
   }
   async function loginTeacher() {
     await axios
-      .post(`${baseUrl}api/teacher/login`, {
-        teacher_id: id,
-        password,
-      })
+      .post(
+        `${baseUrl}teacher/login
+`,
+        {
+          teacher_id: id,
+          password,
+        }
+      )
       .then((res) => {
+        console.log(res.data);
         localStorage.clear();
-        localStorage.setItem("TeacherToken", res.data.access_token);
-        localStorage.setItem("name", res.data.teacher_data.name);
-        localStorage.setItem("Tid", res.data.teacher_data.teacher_id);
-        localStorage.setItem(
-          "courses",
-          JSON.stringify(res.data.teacher_data.courses)
-        );
+        localStorage.setItem("TeacherToken", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("Tid", res.data.teacher_id);
+        localStorage.setItem("courses", JSON.stringify(res.data.courses));
         navigate("/Teacher-Home");
         console.log(res.data);
       })
