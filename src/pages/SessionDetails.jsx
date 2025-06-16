@@ -18,6 +18,7 @@ export default function SessionDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [flag, setflag] = useState(false);
+  const x = 0;
 
   async function getdata() {
     try {
@@ -60,7 +61,7 @@ export default function SessionDetails() {
       setError("Failed to load attendance data");
     } finally {
       setLoading(false);
-      setflag(true);
+      setflag(!flag);
     }
   }
 
