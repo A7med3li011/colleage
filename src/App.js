@@ -12,6 +12,7 @@ import EachSub from "./pages/EachSub";
 import CamAtten from "./components/CamAtten";
 import CuorseDetailsT from "./pages/CuorseDetailsT";
 import SessionDetails from "./pages/SessionDetails";
+import StudentDetails from "./pages/StudentDetails";
 
 function App() {
   // async function getUser() {
@@ -47,6 +48,7 @@ function App() {
         { path: "markAttendance", element: <CamAtten /> },
         { path: "/", element: <Home /> },
         { path: "/Teacher-Home", element: <TeacherHome /> },
+        { path: "/student-details", element: <StudentDetails /> },
         { path: "/subject", element: <EachSub /> },
         { path: "/course-details-teacher", element: <CuorseDetailsT /> },
         { path: "/SessionDetails", element: <SessionDetails /> },

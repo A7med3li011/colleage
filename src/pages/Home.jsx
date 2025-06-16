@@ -126,7 +126,14 @@ export default function Home() {
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
-                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <button
+                      onClick={() =>
+                        navigate("/student-details", {
+                          state: { cId: course.course_id },
+                        })
+                      }
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
                       View Details
                     </button>
                     <button

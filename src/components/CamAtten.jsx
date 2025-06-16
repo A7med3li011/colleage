@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 import { baseUrl } from "../services/apis";
@@ -14,6 +14,28 @@ const CamAtten = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  async function checkWifi() {
+    await axios
+      .post(
+        `${baseUrl}student/pre_attend_check/${state?.cId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => {
+        // console.log(err.response);
+        toast.error(err.response.data.message);
+        navigate("/");
+      });
+  }
+  useEffect(() => {
+    checkWifi();
+  }, []);
   // Function to convert base64 to File object
   const base64ToFile = (base64String, fileName) => {
     // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
@@ -50,7 +72,7 @@ const CamAtten = () => {
       toast.success("Attendance marked successfully!");
       navigate("/");
     } catch (err) {
-      toast.error(err?.response?.data?.details);
+      toast.error(err?.response?.data?.message);
     } finally {
       setLoading(false);
     }
