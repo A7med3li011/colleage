@@ -12,9 +12,7 @@ export default function TeacherHome() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">My Courses</h1>
-          <p className="text-gray-600">
-            Manage and monitor your teaching assignments
-          </p>
+          <p className="text-gray-600">Manage  your teaching courses</p>
         </div>
 
         {/* Courses Grid */}

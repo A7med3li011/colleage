@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../services/apis";
 import { toast } from "react-toastify";
-
+import logo2 from "../assits/a.png";
 export default function Login() {
   const navigate = useNavigate();
   const [role, setRole] = useState("student");

@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assits/logo.jpg";
+import logo2 from "../assits/a.png";
 export default function NavBar() {
   return (
     <div className="flex justify-between items-center  px-3 py-2">
       <div>
-        <img className="w-[50px] h-[50px] rounded-full" src={logo} alt="logo" />{" "}
+        <img
+          className="w-[90px] h-[70px] rounded-full"
+          src={logo2}
+          alt="logo"
+        />{" "}
       </div>
       <ul className="flex ">
         {/* <li className='py-1 px-3'><Link to={"/register"}>Register</Link></li> */}
