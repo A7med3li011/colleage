@@ -17,8 +17,7 @@ export default function SessionDetails() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  console.log(state);
+  const [flag, setflag] = useState(false);
 
   async function getdata() {
     try {
@@ -41,12 +40,35 @@ export default function SessionDetails() {
       setLoading(false);
     }
   }
+  async function updateAttendance(id) {
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `${baseUrl}teacher/course/${state.course_id}/sessions/${state.sessionId}/attendance/toggle`,
+        {
+          student_id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("TeacherToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      setError("Failed to load attendance data");
+    } finally {
+      setLoading(false);
+      setflag(true);
+    }
+  }
 
   useEffect(() => {
     if (state?.course_id && state?.sessionId) {
       getdata();
     }
-  }, []);
+  }, [flag]);
 
   const getStatusColor = (status) => {
     return status === "present"
@@ -226,7 +248,10 @@ export default function SessionDetails() {
                     </div>
                   </div>
 
-                  <div className="flex items-center">
+                  <div
+                    className="flex items-center cursor-pointer"
+                    onClick={() => updateAttendance(student.student_id)}
+                  >
                     <span
                       className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
                         student.status

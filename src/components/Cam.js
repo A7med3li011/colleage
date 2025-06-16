@@ -67,6 +67,7 @@ const Cam = () => {
     } catch (err) {
       console.error("Error sending images:", err);
       toast.error("Something went wrong, please try again");
+      resetAll();
     } finally {
       setIsSending(false);
     }
